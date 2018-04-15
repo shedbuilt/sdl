@@ -1,6 +1,6 @@
 NAME=sdl
 VERSION=1.2.15
-REVISION=2
+REVISION=1
 SRC=http://www.libsdl.org/release/SDL-1.2.15.tar.gz
 SRCMD5=9d96df8417572a2afb781a7c4c811a85
 BUILDDEPS=alsa-lib
