@@ -26,7 +26,7 @@ sed -e '/_XData32/s:register long:register _Xconst long:' \
 patch -Np1 -i "${SHED_PKG_PATCH_DIR}/pssc-sdl-fbcon.patch" &&
 # Configure
 ./configure --prefix=/usr \
-            --docdir="$SHED_PKG_DOCS_INSTALL_DIR"
+            --docdir="$SHED_PKG_DOCS_INSTALL_DIR" \
             --build=$SHED_NATIVE_TARGET \
             --disable-static \
             --enable-alsa \
