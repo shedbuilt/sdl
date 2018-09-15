@@ -23,7 +23,8 @@ done
 # Patch
 sed -e '/_XData32/s:register long:register _Xconst long:' \
     -i src/video/x11/SDL_x11sym.h &&
-patch -Np1 -i "${SHED_PKG_PATCH_DIR}/pssc-sdl-fbcon.patch" &&
+patch -Np1 -i "${SHED_PKG_PATCH_DIR}/0001-pssc-sdl-fbcon.patch" &&
+patch -Np1 -i "${SHED_PKG_PATCH_DIR}/0002-sdl-1.2.15-no-modes.patch" &&
 # Configure
 ./configure --prefix=/usr \
             --docdir="$SHED_PKG_DOCS_INSTALL_DIR" \

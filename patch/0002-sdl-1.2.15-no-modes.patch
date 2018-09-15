@@ -1,0 +1,84 @@
+--- a/src/video/fbcon/SDL_fbvideo.c	2018-09-13 19:55:17.106943376 -1000
++++ b/src/video/fbcon/SDL_fbvideo.c	2018-09-13 21:34:49.222392397 -1000
+@@ -708,68 +708,13 @@
+ 		current_h = vinfo.yres;
+ 	}
+
+-	/* Query for the list of available video modes */
++	/* Configure only the current video mode */
+ 	current_index = ((vinfo.bits_per_pixel+7)/8)-1;
+-	modesdb = fopen(FB_MODES_DB, "r");
+ 	for ( i=0; i<NUM_MODELISTS; ++i ) {
+ 		SDL_nummodes[i] = 0;
+ 		SDL_modelist[i] = NULL;
+ 	}
+-	if ( SDL_getenv("SDL_FB_BROKEN_MODES") != NULL ) {
+-		FB_AddMode(this, current_index, current_w, current_h, 0);
+-	} else if(modesdb) {
+-		while ( read_fbmodes_mode(modesdb, &vinfo) ) {
+-			for ( i=0; i<NUM_MODELISTS; ++i ) {
+-				unsigned int w, h;
+-
+-				if (rotate == FBCON_ROTATE_CW || rotate == FBCON_ROTATE_CCW) {
+-					w = vinfo.yres;
+-					h = vinfo.xres;
+-				} else {
+-					w = vinfo.xres;
+-					h = vinfo.yres;
+-				}
+-				/* See if we are querying for the current mode */
+-				if ( i == current_index ) {
+-					if ( (current_w > w) || (current_h > h) ) {
+-						/* Only check once */
+-						FB_AddMode(this, i, current_w, current_h, 0);
+-						current_index = -1;
+-					}
+-				}
+-				if ( FB_CheckMode(this, &vinfo, i, &w, &h) ) {
+-					FB_AddMode(this, i, w, h, 0);
+-				}
+-			}
+-		}
+-		fclose(modesdb);
+-		FB_SortModes(this);
+-	} else {
+-		for ( i=0; i<NUM_MODELISTS; ++i ) {
+-			for ( j=0; j<(sizeof(checkres)/sizeof(checkres[0])); ++j ) {
+-				unsigned int w, h;
+-
+-				if (rotate == FBCON_ROTATE_CW || rotate == FBCON_ROTATE_CCW) {
+-					w = checkres[j].h;
+-					h = checkres[j].w;
+-				} else {
+-					w = checkres[j].w;
+-					h = checkres[j].h;
+-				}
+-				/* See if we are querying for the current mode */
+-				if ( i == current_index ) {
+-					if ( (current_w > w) || (current_h > h) ) {
+-						/* Only check once */
+-						FB_AddMode(this, i, current_w, current_h, 0);
+-						current_index = -1;
+-					}
+-				}
+-				if ( FB_CheckMode(this, &vinfo, i, &w, &h) ) {
+-					FB_AddMode(this, i, w, h, 1);
+-				}
+-			}
+-		}
+-	}
++	FB_AddMode(this, current_index, current_w, current_h, 0);
+
+ 	this->info.current_w = current_w;
+ 	this->info.current_h = current_h;
+@@ -1099,10 +1044,6 @@
+ 		if ( !shadow_fb &&
+ 				ioctl(console_fd, FBIOPUT_VSCREENINFO, &vinfo) < 0 ) {
+ 			vinfo.yres_virtual = height;
+-			if ( ioctl(console_fd, FBIOPUT_VSCREENINFO, &vinfo) < 0 ) {
+-				SDL_SetError("Couldn't set console screen info");
+-				return(NULL);
+-			}
+ 		}
+ 	} else {
+ 		int maxheight;
