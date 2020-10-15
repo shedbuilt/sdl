@@ -1,9 +1,9 @@
 NAME=sdl
 VERSION=1.2.15
-REVISION=2
+REVISION=3
 SRC=http://www.libsdl.org/release/SDL-1.2.15.tar.gz
 SRCMD5=9d96df8417572a2afb781a7c4c811a85
-BUILDDEPS=alsa-lib
-INSTALLDEPS=alsa-lib
-OPTIONS=(docs) (opengl) (x11) (fbcon)
-DEFAULTS=docs fbcon
+BUILDDEPS=alsa-lib gl:gl4es
+INSTALLDEPS=alsa-lib gl:gl4es
+OPTIONS=(docs) (gl) (x11) (fbcon)
+DEFAULTS=docs gl fbcon

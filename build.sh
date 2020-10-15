@@ -6,7 +6,7 @@ SHED_PKG_LOCAL_FBCON_OPTION='disable'
 SHED_PKG_LOCAL_DUMMY_VIDEO_OPTION='enable'
 for SHED_PKG_LOCAL_OPTION in "${!SHED_PKG_LOCAL_OPTIONS[@]}"; do
     case "$SHED_PKG_LOCAL_OPTION" in
-        opengl)
+        gl)
             SHED_PKG_LOCAL_OPENGL_OPTION='enable'
             SHED_PKG_LOCAL_DUMMY_VIDEO_OPTION='disable'
             ;;
